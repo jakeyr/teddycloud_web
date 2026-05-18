@@ -96,6 +96,20 @@ const PAPER_PRESETS: Record<string, PaperPreset> = {
         labelForm: "square",
         labelBorder: false,
     },
+    // Avery 8293: US Letter, 4x5 round die-cut labels, ~1.67" diameter.
+    // Set `diameter` separately in settings — 38mm (1.5") for a safe-print
+    // inset, or 44mm (1.75") to match the die-cut edge.
+    avery8293: {
+        label: "Avery 8293",
+        marginTop: "16mm",
+        marginLeft: "10mm",
+        imageBleed: "1mm",
+        spacingX: "6mm",
+        spacingY: "6mm",
+        paperFormat: "Letter",
+        labelForm: "round",
+        labelBorder: false,
+    },
 };
 
 const INITIAL_STATE: SettingsState = {
