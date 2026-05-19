@@ -50,6 +50,7 @@ interface PaperPreset {
     labelForm: LabelShape;
     labelBorder: boolean;
     diameter?: string;
+    printMode?: PrintMode;
 }
 
 const PAPER_PRESETS: Record<string, PaperPreset> = {
@@ -101,6 +102,9 @@ const PAPER_PRESETS: Record<string, PaperPreset> = {
     // Geometry derived from the official Avery 8293 PDF template:
     // 4 columns × 5 rows of 44.45mm round labels; left margin 9.53mm,
     // top margin 15.88mm, 6.35mm gap between labels both axes.
+    // Forces OnlyImage print mode — a round die-cut sheet has no room
+    // for a sibling text rectangle, which would otherwise pair with each
+    // image and cut the grid to 2-per-row.
     avery8293: {
         label: "Avery 8293",
         marginTop: "15.88mm",
@@ -112,6 +116,7 @@ const PAPER_PRESETS: Record<string, PaperPreset> = {
         labelForm: "round",
         labelBorder: false,
         diameter: "44.45mm",
+        printMode: "OnlyImage",
     },
 };
 
@@ -183,6 +188,7 @@ function reducer(state: SettingsState, action: Action): SettingsState {
                 showLabelBorder: preset.labelBorder,
                 selectedPaper: action.payload.presetId,
                 ...(preset.diameter ? { diameter: preset.diameter } : {}),
+                ...(preset.printMode ? { printMode: preset.printMode } : {}),
             };
         }
         default:
