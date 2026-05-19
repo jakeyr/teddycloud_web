@@ -49,6 +49,7 @@ interface PaperPreset {
     paperFormat: PaperSize;
     labelForm: LabelShape;
     labelBorder: boolean;
+    diameter?: string;
 }
 
 const PAPER_PRESETS: Record<string, PaperPreset> = {
@@ -96,19 +97,21 @@ const PAPER_PRESETS: Record<string, PaperPreset> = {
         labelForm: "square",
         labelBorder: false,
     },
-    // Avery 8293: US Letter, 4x5 round die-cut labels, ~1.67" diameter.
-    // Set `diameter` separately in settings — 38mm (1.5") for a safe-print
-    // inset, or 44mm (1.75") to match the die-cut edge.
+    // Avery 8293: US Letter, 4x5 round die-cut labels, 1.75" diameter.
+    // Geometry derived from the official Avery 8293 PDF template:
+    // 4 columns × 5 rows of 44.45mm round labels; left margin 9.53mm,
+    // top margin 15.88mm, 6.35mm gap between labels both axes.
     avery8293: {
         label: "Avery 8293",
-        marginTop: "16mm",
-        marginLeft: "10mm",
+        marginTop: "15.88mm",
+        marginLeft: "9.53mm",
         imageBleed: "1mm",
-        spacingX: "6mm",
-        spacingY: "6mm",
+        spacingX: "6.35mm",
+        spacingY: "6.35mm",
         paperFormat: "Letter",
         labelForm: "round",
         labelBorder: false,
+        diameter: "44.45mm",
     },
 };
 
@@ -179,6 +182,7 @@ function reducer(state: SettingsState, action: Action): SettingsState {
                 paperLabelImageBleed: preset.imageBleed,
                 showLabelBorder: preset.labelBorder,
                 selectedPaper: action.payload.presetId,
+                ...(preset.diameter ? { diameter: preset.diameter } : {}),
             };
         }
         default:
