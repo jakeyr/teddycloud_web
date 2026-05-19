@@ -98,24 +98,26 @@ const PAPER_PRESETS: Record<string, PaperPreset> = {
         labelForm: "square",
         labelBorder: false,
     },
-    // Avery 8293: US Letter, 4x5 round die-cut labels, 1.75" diameter.
-    // Geometry derived from the official Avery 8293 PDF template:
-    // 4 columns × 5 rows of 44.45mm round labels; left margin 9.53mm,
-    // top margin 15.88mm, 6.35mm gap between labels both axes.
-    // Forces OnlyImage print mode — a round die-cut sheet has no room
-    // for a sibling text rectangle, which would otherwise pair with each
-    // image and cut the grid to 2-per-row.
+    // Avery 8293: US Letter, 4x5 round die-cut labels, 1.75" (44.45mm) cut.
+    // Prints 1.5" (38.1mm) circles centered inside each die-cut — the ~3mm
+    // safety inset keeps every label inside printer hard-margin areas
+    // (iOS Safari / browsers often ignore @page margin overrides and
+    // enforce ~12.7mm physical margins, which makes a full 1.75" 4-up
+    // grid overflow). Center pitch is held at the template's exact
+    // 2.0" (50.8mm) so each printed circle still lands centered in its
+    // die-cut hole. printMode=OnlyImage because a round die-cut sheet
+    // has no room for a sibling text label.
     avery8293: {
         label: "Avery 8293",
-        marginTop: "15.88mm",
-        marginLeft: "9.53mm",
+        marginTop: "19.05mm",
+        marginLeft: "12.7mm",
         imageBleed: "1mm",
-        spacingX: "6.35mm",
-        spacingY: "6.35mm",
+        spacingX: "12.7mm",
+        spacingY: "12.7mm",
         paperFormat: "Letter",
         labelForm: "round",
         labelBorder: false,
-        diameter: "44.45mm",
+        diameter: "38.1mm",
         printMode: "OnlyImage",
     },
 };
